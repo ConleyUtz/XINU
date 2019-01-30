@@ -3,12 +3,12 @@
 #include <xinu.h>
 
 local	int newpid();
-
+qid16 readylist;
 /*------------------------------------------------------------------------
  *  create  -  Create a process to start running a function on x86
  *------------------------------------------------------------------------
  */
-pid32	create(
+pid32	create1(
 	  void		*funcaddr,	/* Address of the function	*/
 	  uint32	ssize,		/* Stack size in bytes		*/
 	  pri16		priority,	/* Process priority > 0		*/
@@ -93,15 +93,38 @@ pid32	create(
 	*--saddr = 0;			/* %esi */
 	*--saddr = 0;			/* %edi */
 	*pushsp = (unsigned long) (prptr->prstkptr = (char *)saddr);
-	restore(mask);
-
+	//restore(mask);
 	kprintf("prname %s\n", prptr->prname);
         kprintf("prstate: %d\n",prptr->prstate);
         kprintf("prprio: %d\n",prptr->prprio);
         kprintf("prstkbase: %x\n",prptr->prstkbase);
         kprintf("prparent: %d\n",prptr->prparent);
-
-
+	kprintf("\n\nthis is working for startup\n\n\n");
+	insert(pid,readylist,prptr->prprio);
+	resched();
+	restore(mask);
 	return pid;
 }
 
+/*------------------------------------------------------------------------
+ *  newpid  -  Obtain a new (free) process ID
+ *------------------------------------------------------------------------
+ */
+local	pid32	newpid(void)
+{
+	uint32	i;			/* Iterate through all processes*/
+	static	pid32 nextpid = 1;	/* Position in table to try or	*/
+					/*   one beyond end of table	*/
+
+	/* Check all NPROC slots */
+
+	for (i = 0; i < NPROC; i++) {
+		nextpid %= NPROC;	/* Wrap around to beginning */
+		if (proctab[nextpid].prstate == PR_FREE) {
+			return nextpid++;
+		} else {
+			nextpid++;
+		}
+	}
+	return (pid32) SYSERR;
+}

@@ -30,6 +30,7 @@ pid32	currpid;		/* ID of currently executing process	*/
 
 #define	CONSOLE_RESET	" \033[0m\033[2J\033[;H"
 
+
 /*------------------------------------------------------------------------
  * nulluser - initialize the system and become the null process
  *
@@ -85,11 +86,19 @@ void	nulluser()
 
 	/* Create a process to finish startup and start main */
 
-	resume(create((void *)startup, INITSTK, INITPRIO,
+/*	resume(create((void *)startup, INITSTK, INITPRIO,
 					"Startup process", 0, NULL));
+*/ //previous call
+	welcome();
+	create1((void *)startup, INITSTK, INITPRIO,"Startup process", 0, NULL);
+
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/
-	welcome();
+	//welcome();
+#ifdef XTEST
+	int a = 0;
+	int b = 5/a;
+#endif	
 	while (TRUE) {
 		;		/* Do nothing */
 	}
@@ -283,13 +292,12 @@ void    nulluser1()
         //net_init();
 
         /* Create a process to finish startup and start main */
-
+	welcome();
         resume(create((void *)main, INITSTK, INITPRIO,
                                         "Main process", 0, NULL));
 
         /* Become the Null process (i.e., guarantee that the CPU has    */
         /*  something to run when no other process is ready to execute) */
-	welcome();
         while (TRUE) {
                 ;               /* Do nothing */
         }

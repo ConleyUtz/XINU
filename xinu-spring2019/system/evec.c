@@ -152,6 +152,7 @@ void	trap (
 	long	*sp	/* Saved stack pointer	*/
 	)
 {
+	kprintf("Conley Utz - cutz\n");
 	intmask mask;	/* Saved interrupt mask	*/
 	long	*regs;	/* Pointer to saved regs*/
 
