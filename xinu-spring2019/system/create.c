@@ -94,13 +94,13 @@ pid32	create(
 	*--saddr = 0;			/* %edi */
 	*pushsp = (unsigned long) (prptr->prstkptr = (char *)saddr);
 	restore(mask);
-
+#ifdef XDEBUG
 	kprintf("prname %s\n", prptr->prname);
         kprintf("prstate: %d\n",prptr->prstate);
         kprintf("prprio: %d\n",prptr->prprio);
         kprintf("prstkbase: %x\n",prptr->prstkbase);
         kprintf("prparent: %d\n",prptr->prparent);
-
+#endif
 
 	return pid;
 }

@@ -206,11 +206,14 @@ static	void	sysinit()
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
+
+#ifdef XDEBUG
+	kprintf("nullProcess: \n");
 	kprintf("prstate: %d\n",prptr->prstate);
 	kprintf("prprio: %d\n",prptr->prprio);
 	kprintf("prstkbase: %x\n",prptr->prstkbase);
 	kprintf("prparent: %d\n",prptr->prparent);
-	
+#endif
 	/* Initialize semaphores */
 
 	for (i = 0; i < NSEM; i++) {
