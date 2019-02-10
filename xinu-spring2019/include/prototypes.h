@@ -12,6 +12,9 @@ extern	void	arp_hton(struct arppacket *);
 /* in file ascdate.c */
 extern	status	ascdate(uint32, char *);
 
+/* in file boost.c */
+extern syscall boost(uint32 priob, uint32 timeb);
+
 /* in file bufinit.c */
 extern	status	bufinit(void);
 
@@ -75,6 +78,9 @@ extern 	devcall ethwrite(struct dentry *, char *buf, int32);
 
 /* in file exit.c */
 extern	void	exit(void);
+
+/* in file khello.c */
+extern void khello(void);
 
 /* in file kprintf.c */
 extern int console_init(void);
@@ -591,6 +597,10 @@ extern	status	udp_release(uid32);
 extern	void	udp_ntoh(struct netpacket *);
 extern	void	udp_hton(struct netpacket *);
 
+
+/* in file uhello.c */
+
+extern syscall uhello(void);
 
 /* in file unsleep.c */
 extern	syscall	unsleep(pid32);

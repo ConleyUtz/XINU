@@ -449,13 +449,19 @@ _Xint34:
 
 	.globl  _Xint35			/* available for ext. interrupt	*/
 _Xint35:
-	pushl	%ebp
+/*	pushl	%ebp
 	movl	%esp,%ebp
 	pushal
 	movl	%esp, %eax
 	pushl	%eax
 	pushl	$35
-	jmp	Xtrap
+*/
+	pushl	%ebp
+	pushl	%esp
+	call	khello
+	popl	%esp
+	popl	%ebp
+	iret
 
 	.globl  _Xint36			/* available for ext. interrupt	*/
 _Xint36:

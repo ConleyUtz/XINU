@@ -4,6 +4,8 @@
 
 extern void myapp(void);
 
+void sndA(void), sndB(void);
+
 process	main(void)
 {
     
@@ -30,8 +32,36 @@ process	main(void)
 		resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
 	}
 *///removing shell
-	resume(create((void *)myapp, 4096, 20, "myapp", 1, CONSOLE));
-
+//	resume(create((void *)myapp, 4096, 20, "myapp", 1, CONSOLE));
+//	resume( create(sndA, 1024, 20, "process 1", 0) );
+//	resume( create(sndB, 1024, 20, "process 2", 0) );
+//	chprio(4,-3);
+#ifdef XDEBUG
+	struct procent * current;
+	current = &proctab[currpid];
+	kprintf("main:\n");
+        kprintf("prprio: %d\n",current->prprio);
+	kprintf("preempt: %d\n",preempt);
+	boost(4,5);
+        kprintf("new prprio: %d\n",current->prprio);
+        kprintf("new preempt: %d\n",preempt);
+#endif
+	uhello();
+#ifdef XDEBUG
+	kprintf("went to the right place!");
+#endif
 	return OK;
     
+}
+
+void sndA(void)
+{
+	while( 1 )
+		kprintf("A");
+}
+
+void sndB(void)
+{
+	while( 1 )
+		kprintf("B");
 }
