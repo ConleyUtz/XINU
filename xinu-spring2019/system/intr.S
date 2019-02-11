@@ -447,31 +447,27 @@ _Xint34:
 	pushl	$34
 	jmp	Xtrap
 
-	.globl  _Xint35			/* available for ext. interrupt	*/
+	.globl  _Xint35			/*	khello interrupt	*/
 _Xint35:
-/*	pushl	%ebp
-	movl	%esp,%ebp
-	pushal
-	movl	%esp, %eax
-	pushl	%eax
-	pushl	$35
-*/
+	pushl	%ebp	//saving base pointer
+	pushl	%esp	//saving stack pointer
+	call	khello	//executing khello
+	popl	%esp	//ensure ESP is pointing to the correct address
+	popl	%ebp	//ensure EBP is pointing to the correct address
+	iret		//interrupt return
+
+	.globl  _Xint36			/* 	uchprio interrupt	*/
+_Xint36:
 	pushl	%ebp
 	pushl	%esp
-	call	khello
+	push	%ecx
+	pushl	%ebx
+	call	chprio
+	popl	%ebx
+	popl	%ecx
 	popl	%esp
 	popl	%ebp
 	iret
-
-	.globl  _Xint36			/* available for ext. interrupt	*/
-_Xint36:
-	pushl	%ebp
-	movl	%esp,%ebp
-	pushal
-	movl	%esp, %eax
-	pushl	%eax
-	pushl	$36
-	jmp	Xtrap
 
 	.globl  _Xint37			/* available for ext. interrupt	*/
 _Xint37:

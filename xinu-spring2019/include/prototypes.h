@@ -42,6 +42,9 @@ extern	syscall	control(did32, int32, int32, int32);
 /* in file create.c */
 extern	pid32	create(void *, uint32, pri16, char *, uint32, ...);
 
+/* in file create1.c */
+extern	pid32	create1(void *, uint32, pri16, char *, uint32, ...);
+
 /* in file ctxsw.S */
 extern	void	ctxsw(void *, void *);
 
@@ -305,6 +308,9 @@ extern	bpid32	mkbufpool(int32, int32);
 /* in file mount.c */
 extern	syscall	mount(char *, char *, did32);
 extern	int32	namlen(char *, int32);
+
+/* in file myapp.c */
+extern void myapp(void);
 
 /* in file naminit.c */
 extern	status	naminit(void);
@@ -597,10 +603,11 @@ extern	status	udp_release(uid32);
 extern	void	udp_ntoh(struct netpacket *);
 extern	void	udp_hton(struct netpacket *);
 
+/* in file uchprio.c */
+extern pri16 uchprio(pid32 pid, pri16 newprio);
 
 /* in file uhello.c */
-
-extern syscall uhello(void);
+extern void uhello(void);
 
 /* in file unsleep.c */
 extern	syscall	unsleep(pid32);
@@ -613,6 +620,9 @@ extern	syscall	wait(sid32);
 
 /* in file wakeup.c */
 extern	void	wakeup(void);
+
+/* in file welcome.c */
+extern 	void 	welcome(void);
 
 /* in file write.c */
 extern	syscall	write(did32, char *, uint32);

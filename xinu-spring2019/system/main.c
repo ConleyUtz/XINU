@@ -46,10 +46,23 @@ process	main(void)
         kprintf("new prprio: %d\n",current->prprio);
         kprintf("new preempt: %d\n",preempt);
 #endif
-	uhello();
 #ifdef XDEBUG
-	kprintf("went to the right place!");
+	uhello();
 #endif
+        struct procent * current;
+        current = &proctab[currpid];
+        kprintf("main:\n");
+        kprintf("prprio: %d\n",current->prprio);
+	uchprio(currpid,18);
+        kprintf("main new prprio: %d\n",current->prprio);
+
+        while (TRUE) {
+                receive();
+                sleepms(200);
+                kprintf("\n\nMain process recreating shell\n\n");
+                resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
+        }
+
 	return OK;
     
 }

@@ -1,5 +1,7 @@
 /* welcome.c - welcome */
 
+#include <xinu.h>
+
 void welcome(void){
 
         kprintf("\nHello World!\n");

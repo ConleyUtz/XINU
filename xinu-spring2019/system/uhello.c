@@ -2,6 +2,6 @@
 
 #include <xinu.h>
 
-syscall uhello(){
+void uhello(){
 	asm("int $35");
 }
