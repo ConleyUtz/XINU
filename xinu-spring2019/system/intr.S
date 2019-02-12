@@ -449,25 +449,25 @@ _Xint34:
 
 	.globl  _Xint35			/*	khello interrupt	*/
 _Xint35:
-	pushl	%ebp	//saving base pointer
+	pushl	%ebp	//saving base pointer for current stack frame
 	pushl	%esp	//saving stack pointer
-	call	khello	//executing khello
+	call	khello	//calling khello
 	popl	%esp	//ensure ESP is pointing to the correct address
 	popl	%ebp	//ensure EBP is pointing to the correct address
 	iret		//interrupt return
 
 	.globl  _Xint36			/* 	uchprio interrupt	*/
 _Xint36:
-	pushl	%ebp
-	pushl	%esp
-	push	%ecx
-	pushl	%ebx
-	call	chprio
-	popl	%ebx
-	popl	%ecx
-	popl	%esp
-	popl	%ebp
-	iret
+	pushl	%ebp	//saving base poitner for current stack frame
+	pushl	%esp	//saving stack pointer
+	push	%ecx	//pushing parameter 2 for chprio
+	pushl	%ebx	//pushing parameter 1 for chprio
+	call	chprio	//calling chprio
+	popl	%ebx	//discarding garbage on stack
+	popl	%ecx	//discarding garbage on stack
+	popl	%esp	//ensure ESP is pointing to the correct address
+	popl	%ebp	//ensure EBP is pointing to the correct address
+	iret		//interrupt return 
 
 	.globl  _Xint37			/* available for ext. interrupt	*/
 _Xint37:

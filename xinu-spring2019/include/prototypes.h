@@ -15,6 +15,9 @@ extern	status	ascdate(uint32, char *);
 /* in file boost.c */
 extern syscall boost(uint32 priob, uint32 timeb);
 
+/* in file bonuslab2.c */
+extern syscall procinfo(pid32 pid);
+
 /* in file bufinit.c */
 extern	status	bufinit(void);
 

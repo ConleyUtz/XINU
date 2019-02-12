@@ -8,63 +8,38 @@ void sndA(void), sndB(void);
 
 process	main(void)
 {
-    
-/*    	kprintf("\nHello World!\n");
-    	kprintf("\nI'm the first XINU app and running function main() in system/main.c.\n");
-    	kprintf("\nI was created by nulluser() in system/initialize.c using create().\n");
-    	kprintf("\nMy creator will turn itself into the do-nothing null process.\n");
-    	kprintf("\nI will create a second XINU app that runs shell() in shell/shell.c as an example.\n");
-    	kprintf("\nYou can do something else, or do nothing; it's completely up to you.\n");
-    	kprintf("\n...creating a shell\n");
-*/// Removed original welcome message.
-
-	/* Run the Xinu shell */
-
-/*	recvclr();
-	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
-*///removing shell
-	/* Wait for shell to exit and recreate it */
-/*
-	while (TRUE) {
-		receive();
-		sleepms(200);
-		kprintf("\n\nMain process recreating shell\n\n");
-		resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
-	}
-*///removing shell
-//	resume(create((void *)myapp, 4096, 20, "myapp", 1, CONSOLE));
 //	resume( create(sndA, 1024, 20, "process 1", 0) );
 //	resume( create(sndB, 1024, 20, "process 2", 0) );
 //	chprio(4,-3);
-#ifdef XDEBUG
+if(XTEST){
+	//Boost Test
 	struct procent * current;
 	current = &proctab[currpid];
-	kprintf("main:\n");
-        kprintf("prprio: %d\n",current->prprio);
-	kprintf("preempt: %d\n",preempt);
+	kprintf("---boost() TEST---\n");
+        kprintf("Priority before boost(): %d\n",current->prprio);
+	kprintf("Preempt before boost(): %d\n",preempt);
+	kprintf("boost()\n");
 	boost(4,5);
-        kprintf("new prprio: %d\n",current->prprio);
-        kprintf("new preempt: %d\n",preempt);
-#endif
-#ifdef XDEBUG
+        kprintf("Priority after boost(): %d\n",current->prprio);
+        kprintf("Preempt after boost(): %d\n",preempt);
+}
+if(XTEST){
+	kprintf("\n\n---uhello() TEST---\n");
 	uhello();
-#endif
+}
+if(XTEST){
         struct procent * current;
         current = &proctab[currpid];
-        kprintf("main:\n");
-        kprintf("prprio: %d\n",current->prprio);
+        kprintf("\n\n---uchprio TEST---\n");
+        kprintf("Priority of %s before uchprio(): %d\n",current->prname,current->prprio);
 	uchprio(currpid,18);
-        kprintf("main new prprio: %d\n",current->prprio);
-
-        while (TRUE) {
-                receive();
-                sleepms(200);
-                kprintf("\n\nMain process recreating shell\n\n");
-                resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
-        }
+        kprintf("Priority of %s after uchprio(): %d\n",current->prname,current->prprio);
+}
+//	procinfo(3); HERE IS WHERE YOU CAN CALL THE BONUS FUNCTION
+//	syscall procinfo(pid32 pid)
+//	it prints all information about the process
 
 	return OK;
-    
 }
 
 void sndA(void)

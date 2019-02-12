@@ -95,10 +95,10 @@ void	nulluser()
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/
 	//welcome();
-#ifdef XTEST
-	int a = 0;
-	int b = 5/a;
-#endif	
+//#ifdef XTEST
+//	int a = 0;
+//	int b = 5/a;
+//#endif	
 	while (TRUE) {
 		;		/* Do nothing */
 	}
@@ -207,13 +207,13 @@ static	void	sysinit()
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
 
-#ifdef XDEBUG
+if(XDEBUG){
 	kprintf("nullProcess: \n");
 	kprintf("prstate: %d\n",prptr->prstate);
 	kprintf("prprio: %d\n",prptr->prprio);
 	kprintf("prstkbase: %x\n",prptr->prstkbase);
 	kprintf("prparent: %d\n",prptr->prparent);
-#endif
+}
 	/* Initialize semaphores */
 
 	for (i = 0; i < NSEM; i++) {

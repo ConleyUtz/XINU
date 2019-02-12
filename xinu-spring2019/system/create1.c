@@ -95,14 +95,15 @@ pid32	create1(
 	*pushsp = (unsigned long) (prptr->prstkptr = (char *)saddr);
 	//restore(mask);
 
-#ifdef XDEBUG
+if(XDEBUG){
 	kprintf("prname %s\n", prptr->prname);
         kprintf("prstate: %d\n",prptr->prstate);
         kprintf("prprio: %d\n",prptr->prprio);
         kprintf("prstkbase: %x\n",prptr->prstkbase);
         kprintf("prparent: %d\n",prptr->prparent);
 	kprintf("\n\nthis is working for startup\n\n\n");
-#endif
+}
+
 	insert(pid,readylist,prptr->prprio);
 	resched();
 	restore(mask);
