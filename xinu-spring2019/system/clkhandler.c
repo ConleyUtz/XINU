@@ -23,6 +23,8 @@ void	clkhandler()
 		count1000 = 1000;
 	}
 
+	clktimefine++;	
+
 	/* Handle sleeping processes if any exist */
 
 	if(!isempty(sleepq)) {

@@ -137,7 +137,7 @@ local process	startup(void)
 	//}
 
 	/* Create a process to execute function main() */
-
+	
 	resume(create((void *)main, INITSTK, INITPRIO,
 					"Main process", 0, NULL));
 
@@ -155,6 +155,7 @@ local process	startup(void)
  */
 static	void	sysinit()
 {
+	initialtime = 0;
 	int32	i;
 	struct	procent	*prptr;		/* Ptr to process table entry	*/
 	struct	sentry	*semptr;	/* Ptr to semaphore table entry	*/
