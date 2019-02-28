@@ -155,7 +155,6 @@ local process	startup(void)
  */
 static	void	sysinit()
 {
-	initialtime = 0;
 	int32	i;
 	struct	procent	*prptr;		/* Ptr to process table entry	*/
 	struct	sentry	*semptr;	/* Ptr to semaphore table entry	*/

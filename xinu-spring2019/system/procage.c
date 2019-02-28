@@ -7,6 +7,7 @@ syscall procage(pid32 pid){
 	mask = disable();
 
 	if(isbadpid(pid)){
+		restore(mask);
 		return SYSERR;
 	}
 	struct procent * prptr;
@@ -14,6 +15,6 @@ syscall procage(pid32 pid){
 
 	restore(mask);
 
-	return clktimefine-(prptr->prbdate);
+	return (clktimefine-(prptr->prbdate));
 
 }

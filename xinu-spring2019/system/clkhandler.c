@@ -41,7 +41,12 @@ void	clkhandler()
 	/*   remaining time reaches zero			     */
 
 	if((--preempt) <= 0) {
-		preempt = QUANTUM;
+		//preempt = QUANTUM;	
+	    /* 	cutz - COMMENT1 - commented this out as it is unnecessary 
+		because "preempt = QUANTUM" is also set in resched(), 
+		though I needed to make a minor update before the early 
+		return call. See NOTE1. It also negatively effected my
+		cpu-usage time  */
 		resched();
 	}
 }

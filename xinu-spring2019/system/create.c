@@ -3,7 +3,8 @@
 #include <xinu.h>
 
 local	int newpid();
-
+qid16	readylist; /* cutz - Ready list queue */
+syscall getmaxcpu(); /* cutz - getmaxcpu syscall */
 /*------------------------------------------------------------------------
  *  create  -  Create a process to start running a function on x86
  *------------------------------------------------------------------------
@@ -40,7 +41,18 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
-	prptr->prprio = priority;
+
+	/* cutz - COMMENT3 START- ADDED CODE BLOCK FOR SCHEDULING STARTS */
+
+//	prptr->prprio = priority;
+	int maxcpu = getmaxcpu(); 	/* Getting max CPU usage via syscall */
+	prptr->prvcputime = maxcpu; 	/* New process gets max CPU usage    */
+	prptr->prprio = 30000-maxcpu; 	/* New process gets lowest prio      */
+        prptr->prbdate = clktimefine; 	/* New process creation time 	     */
+        prptr->prcputime = 0; 		/* New process has no CPU time       */
+
+	/* cutz - COMMENT3 END - ADDED CODE BLOCK FOR SCHEDULING ENDS */
+
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
@@ -49,8 +61,6 @@ pid32	create(
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
-	prptr->prbdate = clktimefine;
-	prptr->prcputime = 0;
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;
 	prptr->prdesc[1] = CONSOLE;

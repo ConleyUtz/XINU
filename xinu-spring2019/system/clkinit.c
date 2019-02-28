@@ -3,8 +3,8 @@
 #include <xinu.h>
 
 uint32	clktime;		/* Seconds since boot			*/
-uint32	clktimefine;
-uint32  initialtime;
+volatile uint32	clktimefine;
+volatile uint32  initialtime;
 uint32	ctr1000 = 0;		/* Milliseconds since boot		*/
 qid16	sleepq;			/* Queue of sleeping processes		*/
 uint32	preempt;		/* Preemption counter			*/
@@ -29,9 +29,9 @@ void	clkinit(void)
 
 	clktime = 0;
 
-	clktimefine = 0;
+	clktimefine = 0; /* cutz - Initializing clktimefine (clktime in ms) */
 
-	initialtime = 0;
+	initialtime = 0; /* cutz - Initializing CPU usage global variable */
 	/* Set interrupt vector for the clock to invoke clkdisp */
 
 	set_evec(IRQBASE, (uint32)clkdisp);

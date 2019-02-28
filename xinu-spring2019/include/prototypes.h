@@ -12,6 +12,12 @@ extern	void	arp_hton(struct arppacket *);
 /* in file ascdate.c */
 extern	status	ascdate(uint32, char *);
 
+/* in file appcpu.c */ /* cutz - CPU intensive declaration */
+extern	void	appcpu(void);
+
+/* in file appio.c */ /* cutz - IO intensive declaration */
+extern void	appio(void);
+
 /* in file boost.c */
 extern syscall boost(uint32 priob, uint32 timeb);
 
@@ -121,6 +127,10 @@ extern	pid32	getitem(pid32);
 
 /* in file getmem.c */
 extern	char	*getmem(uint32);
+
+/* in file getcpu.c */
+extern syscall	getmincpu(void); /* cutz - Function for finding mincpu usage */
+extern syscall	getmaxcpu(void); /* cutz - Function for finding maxcpu usage */
 
 /* in file getpid.c */
 extern	pid32	getpid(void);
@@ -349,7 +359,7 @@ extern	void	platinit(void);
 extern 	syscall	procage(pid32 pid);
 
 /* in file proccputime.c */
-extern	uint32	proccputime(pid32 pid);
+extern	syscall	proccputime(pid32 pid);
 
 /* in file ptclear.c */
 extern	void	_ptclear(struct ptentry *, uint16, int32 (*)(int32));

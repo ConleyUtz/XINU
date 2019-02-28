@@ -54,8 +54,9 @@ struct procent {		/* Entry in the process table		*/
 	umsg32	prmsg;		/* Message sent to this process		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
-	uint32	prbdate;
-	uint32	prcputime;
+	uint32	prbdate;	/* Initial time process was created 	*/ //cutz
+	uint32	prcputime;	/* Total process CPU Usage in ms	*/ //cutz
+	uint32	prvcputime;	/* Virtual CPU Usage in ms (fair sched) */ //cutz
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/
@@ -64,4 +65,4 @@ struct procent {		/* Entry in the process table		*/
 extern	struct	procent proctab[];
 extern	int32	prcount;	/* Currently active processes		*/
 extern	pid32	currpid;	/* Currently executing process		*/
-extern	uint32  initialtime;
+extern	volatile uint32  initialtime; /* cutz - CPU usage counter	*/

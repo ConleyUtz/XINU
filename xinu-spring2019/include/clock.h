@@ -11,7 +11,8 @@
 
 extern	uint32	clktime;	/* current time in secs since boot	*/
 
-extern	uint32	clktimefine;
+extern	volatile uint32	clktimefine; /* cutz - declaring clktimefine
+					(time in ms) 			*/
 
 extern	qid16	sleepq;		/* queue for sleeping processes		*/
 extern	uint32	preempt;	/* preemption counter			*/

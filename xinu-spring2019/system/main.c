@@ -6,20 +6,53 @@ extern void myapp(void);
 
 void sndA(void), sndB(void);
 
+void appcpu(void);
+void appio(void);
+
 process	main(void)
 {
-	resume( create(sndA, 1024, 20, "process 1", 0) );
-	resume( create(sndB, 1024, 20, "process 2", 0) );
-        struct procent * current;
-        current = &proctab[currpid];
-	while(1){
-	uint32 time = proccputime(currpid);
-        kprintf("\n\n MAIN USE: %u\n",time);
-	}
-//	procinfo(3); HERE IS WHERE YOU CAN CALL THE BONUS FUNCTION
-//	syscall procinfo(pid32 pid)
-//	it prints all information about the process
-
+	int XTESTA = 0;
+	int XTESTB = 0;
+	int XTESTC = 1;
+	int XTESTD = 0;
+if(XTESTA){
+	resume( create(appcpu, 1024, 21, "process 1", 0) );
+        resume( create(appcpu, 1024, 20, "process 2", 0) );
+        resume( create(appcpu, 1024, 20, "process 3", 0) );
+        resume( create(appcpu, 1024, 20, "process 4", 0) );
+        resume( create(appcpu, 1024, 20, "process 5", 0) );
+}
+if(XTESTB){
+        resume( create(appio, 1024, 20, "process 1", 0) );
+        resume( create(appio, 1024, 20, "process 2", 0) );
+        resume( create(appio, 1024, 20, "process 3", 0) );
+        resume( create(appio, 1024, 20, "process 4", 0) );
+        resume( create(appio, 1024, 20, "process 5", 0) );
+}
+if(XTESTC){
+        resume( create(appcpu, 1024, 20, "process 1", 0) );
+        resume( create(appcpu, 1024, 20, "process 2", 0) );
+        resume( create(appcpu, 1024, 20, "process 3", 0) );
+        resume( create(appcpu, 1024, 20, "process 4", 0) );
+        resume( create(appcpu, 1024, 20, "process 5", 0) );
+        resume( create(appio, 1024, 20, "process 6", 0) );
+        resume( create(appio, 1024, 20, "process 7", 0) );
+        resume( create(appio, 1024, 20, "process 8", 0) );
+        resume( create(appio, 1024, 20, "process 9", 0) );
+        resume( create(appio, 1024, 20, "process 10", 0) );
+}
+if(XTESTD){
+        resume( create(appcpu, 1024, 20, "process 1", 0) );
+	sleepms(5000);
+        resume( create(appcpu, 1024, 20, "process 2", 0) );
+	sleepms(5000);
+        resume( create(appcpu, 1024, 20, "process 3", 0) );
+	sleepms(5000);
+        resume( create(appcpu, 1024, 20, "process 4", 0) );
+	sleepms(5000);
+        resume( create(appcpu, 1024, 20, "process 5", 0) );
+        sleepms(5000);
+}
 	return OK;
 }
 

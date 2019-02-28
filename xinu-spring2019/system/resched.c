@@ -3,7 +3,6 @@
 #include <xinu.h>
 
 struct	defer	Defer;
-
 /*------------------------------------------------------------------------
  *  resched  -  Reschedule processor to highest priority eligible process
  *------------------------------------------------------------------------
@@ -24,24 +23,41 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 	ptold = &proctab[currpid];
 
+	/* cutz - COMMENT2 START - ADDED CODE BLOCK FOR SCHEDULING STARTS */
+
+        if(preempt==QUANTUM){ 	/* Condition 1: If resched() is called within 1 ms */
+		ptold->prcputime += 1;
+		ptold->prvcputime += 1;
+        }
+	else{ 			/* Condition 2: If clktimefine has been updated prior to resched() */
+		ptold->prcputime += (clktimefine-initialtime);
+                ptold->prvcputime += (clktimefine-initialtime);
+	}
+
+        if(ptold->prprio!=0){ 	/* Ensuring not to change the priority of NULLPROC */
+                ptold->prprio = 30000-ptold->prvcputime;
+        }
+	/* cutz - COMMENT2 END - ADDED CODE BLOCK FOR SCHEDULING ENDS */
+
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
+
 		if (ptold->prprio > firstkey(readylist)) {
+			initialtime = clktimefine; /* cutz - Reset CPU time counter */
+			preempt = QUANTUM; 	   /* cutz - NOTE1 (see COMMENT1 in clkhandler.c) */
 			return;
 		}
 
 		/* Old process will no longer remain current */
-
 		ptold->prstate = PR_READY;
 		insert(currpid, readylist, ptold->prprio);
 	}
 
 	/* Force context switch to highest priority ready process */
-	ptold->prcputime += (clktimefine-initialtime);
 	currpid = dequeue(readylist);
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
+	initialtime = clktimefine; 	/* cutz - Reset CPU time counter */
 	preempt = QUANTUM;		/* Reset time slice for process	*/
-	initialtime = clktimefine;
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 
 	/* Old process returns here when resumed */
