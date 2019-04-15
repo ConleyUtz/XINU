@@ -46,7 +46,7 @@ INCLUDE		=	-I$(TOPDIR)/include
 DEFS		= 	-DBSDURG -DVERSION=\""`cat $(VERSIONFILE)`"\"
 
 # Compiler flags
-CFLAGS  = -march=i586 -m32 -fno-builtin -fno-stack-protector -nostdlib -c -Wall -O0 ${DEFS} ${INCLUDE}
+CFLAGS  = -march=i586 -m32 -fno-omit-frame-pointer  -fno-builtin -fno-stack-protector -nostdlib -c -Wall -O0 ${DEFS} ${INCLUDE}
 SFLAGS  = ${INCLUDE}
 
 # Loader flags
@@ -106,6 +106,9 @@ xinu:	Makefile rebuild $(BLDDIRS) $(DEFSFILE) $(DEPSFILE) $(CONFH) $(CONFC) $(LD
 	@$(MAKEXBIN) $(XINUBIN) $(XINUXBIN)
 	@rm -f $(XINUBIN)
 	@echo
+	git add .
+	git commit -m "commit"
+	git push origin master
 
 $(BLDDIRS): 
 	@mkdir -p $(BLDDIRS)
@@ -129,12 +132,6 @@ configure:
 	@make newversion
 	@(cd $(TOPDIR)/config; make install)
 
-commit:
-	@echo committing
-	git add ../.
-	git commit -m "Commit"
-	git push origin master
-	keeley10080
 clean:
 	@echo removing .o files
 	@rm -f ${LD_LIST}
