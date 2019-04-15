@@ -129,6 +129,11 @@ configure:
 	@make newversion
 	@(cd $(TOPDIR)/config; make install)
 
+commit:
+	@echo committing
+	git add ../.
+	git commit -m "Commit"
+	git push origin master
 clean:
 	@echo removing .o files
 	@rm -f ${LD_LIST}
