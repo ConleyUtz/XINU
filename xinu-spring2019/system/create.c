@@ -3,8 +3,7 @@
 #include <xinu.h>
 
 local	int newpid();
-qid16	readylist; /* cutz - Ready list queue */
-syscall getmaxcpu(); /* cutz - getmaxcpu syscall */
+
 /*------------------------------------------------------------------------
  *  create  -  Create a process to start running a function on x86
  *------------------------------------------------------------------------
@@ -41,18 +40,7 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
-
-	/* cutz - COMMENT3 START- ADDED CODE BLOCK FOR SCHEDULING STARTS */
-
-//	prptr->prprio = priority;
-	int maxcpu = getmaxcpu(); 	/* Getting max CPU usage via syscall */
-	prptr->prvcputime = maxcpu; 	/* New process gets max CPU usage    */
-	prptr->prprio = 30000-maxcpu; 	/* New process gets lowest prio      */
-        prptr->prbdate = clktimefine; 	/* New process creation time 	     */
-        prptr->prcputime = 0; 		/* New process has no CPU time       */
-
-	/* cutz - COMMENT3 END - ADDED CODE BLOCK FOR SCHEDULING ENDS */
-
+	prptr->prprio = priority;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
@@ -61,6 +49,15 @@ pid32	create(
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
+
+	/* Lab 5 */
+	prptr->prxsigipc = 0;
+        prptr->prxsigalrm = 0;
+        prptr->prxsiggpf = 0;
+	prptr->fipc = NULL;
+	prptr->falrm = NULL;
+	prptr->fgpf = NULL;
+
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;
 	prptr->prdesc[1] = CONSOLE;
@@ -105,13 +102,6 @@ pid32	create(
 	*--saddr = 0;			/* %edi */
 	*pushsp = (unsigned long) (prptr->prstkptr = (char *)saddr);
 	restore(mask);
-if(XDEBUG){
-	kprintf("prname %s\n", prptr->prname);
-        kprintf("prstate: %d\n",prptr->prstate);
-        kprintf("prprio: %d\n",prptr->prprio);
-        kprintf("prstkbase: %x\n",prptr->prstkbase);
-        kprintf("prparent: %d\n",prptr->prparent);
-}
 	return pid;
 }
 

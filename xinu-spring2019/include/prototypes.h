@@ -12,18 +12,6 @@ extern	void	arp_hton(struct arppacket *);
 /* in file ascdate.c */
 extern	status	ascdate(uint32, char *);
 
-/* in file appcpu.c */ /* cutz - CPU intensive declaration */
-extern	void	appcpu(void);
-
-/* in file appio.c */ /* cutz - IO intensive declaration */
-extern void	appio(void);
-
-/* in file boost.c */
-extern syscall boost(uint32 priob, uint32 timeb);
-
-/* in file bonuslab2.c */
-extern syscall procinfo(pid32 pid);
-
 /* in file bufinit.c */
 extern	status	bufinit(void);
 
@@ -50,9 +38,6 @@ extern	syscall	control(did32, int32, int32, int32);
 
 /* in file create.c */
 extern	pid32	create(void *, uint32, pri16, char *, uint32, ...);
-
-/* in file create1.c */
-extern	pid32	create1(void *, uint32, pri16, char *, uint32, ...);
 
 /* in file ctxsw.S */
 extern	void	ctxsw(void *, void *);
@@ -91,9 +76,6 @@ extern 	devcall ethwrite(struct dentry *, char *buf, int32);
 /* in file exit.c */
 extern	void	exit(void);
 
-/* in file khello.c */
-extern void khello(void);
-
 /* in file kprintf.c */
 extern int console_init(void);
 
@@ -127,10 +109,6 @@ extern	pid32	getitem(pid32);
 
 /* in file getmem.c */
 extern	char	*getmem(uint32);
-
-/* in file getcpu.c */
-extern syscall	getmincpu(void); /* cutz - Function for finding mincpu usage */
-extern syscall	getmaxcpu(void); /* cutz - Function for finding maxcpu usage */
 
 /* in file getpid.c */
 extern	pid32	getpid(void);
@@ -322,9 +300,6 @@ extern	bpid32	mkbufpool(int32, int32);
 extern	syscall	mount(char *, char *, did32);
 extern	int32	namlen(char *, int32);
 
-/* in file myapp.c */
-extern void myapp(void);
-
 /* in file naminit.c */
 extern	status	naminit(void);
 
@@ -354,12 +329,6 @@ extern	void	pdumph(struct netpacket *);
 
 /* in file platinit.c */
 extern	void	platinit(void);
-
-/* in file procage.c  */
-extern 	syscall	procage(pid32 pid);
-
-/* in file proccputime.c */
-extern	syscall	proccputime(pid32 pid);
 
 /* in file ptclear.c */
 extern	void	_ptclear(struct ptentry *, uint16, int32 (*)(int32));
@@ -622,11 +591,6 @@ extern	status	udp_release(uid32);
 extern	void	udp_ntoh(struct netpacket *);
 extern	void	udp_hton(struct netpacket *);
 
-/* in file uchprio.c */
-extern pri16 uchprio(pid32 pid, pri16 newprio);
-
-/* in file uhello.c */
-extern void uhello(void);
 
 /* in file unsleep.c */
 extern	syscall	unsleep(pid32);
@@ -640,14 +604,14 @@ extern	syscall	wait(sid32);
 /* in file wakeup.c */
 extern	void	wakeup(void);
 
-/* in file welcome.c */
-extern 	void 	welcome(void);
-
 /* in file write.c */
 extern	syscall	write(did32, char *, uint32);
 
 /* in file xdone.c */
 extern	void	xdone(void);
+
+/* in file xsigaction.c */
+extern	syscall xsigaction(uint16, sigtype, int32 (* fp)(void), uint32 optarg);
 
 /* in file yield.c */
 extern	syscall	yield(void);

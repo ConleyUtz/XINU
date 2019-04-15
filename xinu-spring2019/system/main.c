@@ -2,68 +2,30 @@
 
 #include <xinu.h>
 
-extern void myapp(void);
-
-void sndA(void), sndB(void);
-
-void appcpu(void);
-void appio(void);
-
 process	main(void)
 {
-	int XTESTA = 0;
-	int XTESTB = 0;
-	int XTESTC = 1;
-	int XTESTD = 0;
-if(XTESTA){
-	resume( create(appcpu, 1024, 21, "process 1", 0) );
-        resume( create(appcpu, 1024, 20, "process 2", 0) );
-        resume( create(appcpu, 1024, 20, "process 3", 0) );
-        resume( create(appcpu, 1024, 20, "process 4", 0) );
-        resume( create(appcpu, 1024, 20, "process 5", 0) );
-}
-if(XTESTB){
-        resume( create(appio, 1024, 20, "process 1", 0) );
-        resume( create(appio, 1024, 20, "process 2", 0) );
-        resume( create(appio, 1024, 20, "process 3", 0) );
-        resume( create(appio, 1024, 20, "process 4", 0) );
-        resume( create(appio, 1024, 20, "process 5", 0) );
-}
-if(XTESTC){
-        resume( create(appcpu, 1024, 20, "process 1", 0) );
-        resume( create(appcpu, 1024, 20, "process 2", 0) );
-        resume( create(appcpu, 1024, 20, "process 3", 0) );
-        resume( create(appcpu, 1024, 20, "process 4", 0) );
-        resume( create(appcpu, 1024, 20, "process 5", 0) );
-        resume( create(appio, 1024, 20, "process 6", 0) );
-        resume( create(appio, 1024, 20, "process 7", 0) );
-        resume( create(appio, 1024, 20, "process 8", 0) );
-        resume( create(appio, 1024, 20, "process 9", 0) );
-        resume( create(appio, 1024, 20, "process 10", 0) );
-}
-if(XTESTD){
-        resume( create(appcpu, 1024, 20, "process 1", 0) );
-	sleepms(5000);
-        resume( create(appcpu, 1024, 20, "process 2", 0) );
-	sleepms(5000);
-        resume( create(appcpu, 1024, 20, "process 3", 0) );
-	sleepms(5000);
-        resume( create(appcpu, 1024, 20, "process 4", 0) );
-	sleepms(5000);
-        resume( create(appcpu, 1024, 20, "process 5", 0) );
-        sleepms(5000);
-}
+    
+    	kprintf("\nHello World!\n");
+    	kprintf("\nI'm the first XINU app and running function main() in system/main.c.\n");
+    	kprintf("\nI was created by nulluser() in system/initialize.c using create().\n");
+    	kprintf("\nMy creator will turn itself into the do-nothing null process.\n");
+    	kprintf("\nI will create a second XINU app that runs shell() in shell/shell.c as an example.\n");
+    	kprintf("\nYou can do something else, or do nothing; it's completely up to you.\n");
+    	kprintf("\n...creating a shell\n");
+
+	/* Run the Xinu shell */
+
+	recvclr();
+	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
+
+	/* Wait for shell to exit and recreate it */
+
+	while (TRUE) {
+		receive();
+		sleepms(200);
+		kprintf("\n\nMain process recreating shell\n\n");
+		resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
+	}
 	return OK;
-}
-
-void sndA(void)
-{
-	while( 1 )
-		kprintf("A");
-}
-
-void sndB(void)
-{
-	while( 1 )
-		kprintf("B");
+    
 }

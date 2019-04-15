@@ -30,6 +30,7 @@
 #include <name.h>
 #include <shell.h>
 #include <date.h>
+#include <xsignal.h>
 #include <prototypes.h>
 #include <delay.h>
 #include <pci.h>

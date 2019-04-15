@@ -1,0 +1,19 @@
+initialize.c:		semptr->sstate = S_FREE;
+initialize.c:		semptr->scount = 0;
+initialize.c:		semptr->squeue = newqueue();
+signal.c:	if (semptr->sstate == S_FREE) {
+signal.c:	if ((semptr->scount++) < 0) {	/* Release a waiting process */
+signal.c:		ready(dequeue(semptr->squeue));
+signaln.c:	if (semptr->sstate == S_FREE) {
+signaln.c:		if ((semptr->scount++) < 0) {
+signaln.c:			ready(dequeue(semptr->squeue));
+wait.c:	if (semptr->sstate == S_FREE) {
+wait.c:	if (--(semptr->scount) < 0) {		/* If caller must block	*/
+wait.c:		enqueue(currpid,semptr->squeue);/* Enqueue on semaphore	*/
+semreset.c:	semqueue = semptr->squeue;	/* Free any waiting processes */
+semreset.c:	semptr->scount = count;		/* Reset count as specified */
+semdelete.c:	if (semptr->sstate == S_FREE) {
+semdelete.c:	semptr->sstate = S_FREE;
+semdelete.c:	while (semptr->scount++ < 0) {	/* Free all waiting processes	*/
+semdelete.c:		ready(getfirst(semptr->squeue));
+Binary file .wait.c.swp matches
