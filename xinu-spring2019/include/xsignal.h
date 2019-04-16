@@ -2,7 +2,7 @@
 #define XSIGALRM 4
 #define XSIGGPF  5
 
-extern	unsigned int	sigid;
+extern	uint32	sigid;
 
 extern  struct  alrmqueue{
         uint32 alrmtime;
