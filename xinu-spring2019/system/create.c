@@ -50,13 +50,15 @@ pid32	create(
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
 
-	/* Lab 5 */
+	/* Lab 6 */
 	prptr->prxsigipc = 0;
         prptr->prxsigalrm = 0;
         prptr->prxsiggpf = 0;
 	prptr->fipc = NULL;
 	prptr->falrm = NULL;
 	prptr->fgpf = NULL;
+	prptr->pralrmraised = 0;
+	prptr->clkdispaddr = NULL;
 
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;

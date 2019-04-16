@@ -52,12 +52,14 @@ struct procent {		/* Entry in the process table		*/
 	umsg32	prmsg;		/* Message sent to this process		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
-	bool8 prxsigipc;        /* Nonzero if IPC sighandler registered */
-	int (* fipc)();         /* Pointer to IPC signal handler */
-	bool8 prxsigalrm;       /* Nonzero if alarm sighandler registered */
-	int (* falrm)();        /* Pointer to alarm signal handler */
-	bool8 prxsiggpf;        /* Nonzero if GPF sighandler registered */
-	int (* fgpf)();         /* Pointer to GPF signal handler */
+	bool8 	prxsigipc;      /* Nonzero if IPC sighandler registered */
+	int 	(* fipc)();     /* Pointer to IPC signal handler 	*/
+	bool8 	prxsigalrm;     /* Nonzero if alrm sighandler registered*/
+	int 	(* falrm)();    /* Pointer to alarm signal handler 	*/
+	bool8 	prxsiggpf;      /* Nonzero if GPF sighandler registered */
+	int 	(* fgpf)();     /* Pointer to GPF signal handler 	*/
+	bool8	pralrmraised;	/* If alarm is raised 			*/
+	uint32 * clkdispaddr;	/* each process gets its own		*/
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

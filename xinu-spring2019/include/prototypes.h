@@ -1,3 +1,8 @@
+/* lab6 files */
+
+extern struct alrmqueue * alrminsert(uint32 alrminterval, pid32 pid);
+extern pid32  alrmextract(void);
+
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 
@@ -611,7 +616,7 @@ extern	syscall	write(did32, char *, uint32);
 extern	void	xdone(void);
 
 /* in file xsigaction.c */
-extern	syscall xsigaction(uint16, sigtype, int32 (* fp)(void), uint32 optarg);
+extern	syscall xsigaction(uint16 sigtype, int32 (* fp)(void), uint32 optarg);
 
 /* in file yield.c */
 extern	syscall	yield(void);

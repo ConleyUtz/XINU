@@ -6,6 +6,8 @@
  * clkhandler - high level clock interrupt handler
  *------------------------------------------------------------------------
  */
+
+struct alrmqueue * alrmqueue;
 void	clkhandler()
 {
 	static	uint32	count1000 = 1000;	/* Count to 1000 ms	*/
@@ -23,6 +25,8 @@ void	clkhandler()
 		count1000 = 1000;
 	}
 
+	clktimefine++;
+
 	/* Handle sleeping processes if any exist */
 
 	if(!isempty(sleepq)) {
@@ -33,6 +37,14 @@ void	clkhandler()
 		if((--queuetab[firstid(sleepq)].qkey) <= 0) {
 			wakeup();
 		}
+	}
+
+	while(alrmqueue->alrmpid!=-1 && alrmqueue->alrmtime==clktimefine){
+			//extract
+			pid32 alrmpid = alrmextract();
+			struct procent * prptr = &proctab[alrmpid];
+			prptr->pralrmraised = 1;
+			//check if it's empty
 	}
 
 	/* Decrement the preemption counter, and reschedule when the */
