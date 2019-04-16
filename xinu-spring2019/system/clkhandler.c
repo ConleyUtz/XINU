@@ -39,12 +39,10 @@ void	clkhandler()
 		}
 	}
 
-	while(alrmqueue->alrmpid!=-1 && alrmqueue->alrmtime==clktimefine){
-			//extract
+	while(alrmqueue->alrmnext != NULL && alrmqueue->alrmnext->alrmtime==clktimefine){
 			pid32 alrmpid = alrmextract();
 			struct procent * prptr = &proctab[alrmpid];
 			prptr->pralrmraised = 1;
-			//check if it's empty
 	}
 
 	/* Decrement the preemption counter, and reschedule when the */

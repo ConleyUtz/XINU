@@ -7,7 +7,7 @@ uint32	ctr1000 = 0;		/* Milliseconds since boot		*/
 qid16	sleepq;			/* Queue of sleeping processes		*/
 uint32	preempt;		/* Preemption counter			*/
 uint32	clktimefine;
-
+uint32	alrmqueuesize;
 /*------------------------------------------------------------------------
  * clkinit  -  Initialize the clock and sleep queue at startup (x86)
  *------------------------------------------------------------------------
@@ -30,8 +30,9 @@ void	clkinit(void)
 
 	clktimefine = 0; /* cutz - initializing clktimefine */
 
-	alrmqueue = NULL;
-
+	alrmqueue->alrmnext = NULL;
+	alrmqueuesize = 0;
+	
 	/* Set interrupt vector for the clock to invoke clkdisp */
 
 	set_evec(IRQBASE, (uint32)clkdisp);
