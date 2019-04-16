@@ -3,12 +3,11 @@
 #include <xinu.h>
 
 uint32 alrmqueuesize;
+struct alrmqueue * alrmqueue;
 
 struct alrmqueue * alrminsert(uint32 alrminterval, pid32 pid){
 	intmask mask;
-	struct procent * prptr;
 	mask = disable();
-	prptr = &proctab[currpid];
 	struct alrmqueue * toinsert = (struct alrmqueue *)getmem(sizeof(struct alrmqueue));
 	
 	toinsert->alrmtime = alrminterval+clktimefine;
@@ -30,7 +29,6 @@ struct alrmqueue * alrminsert(uint32 alrminterval, pid32 pid){
 
 pid32 alrmextract(){
 	intmask mask;
-	struct procent * prptr;
 	mask = disable();
 	struct alrmqueue * temp = alrmqueue->alrmnext;
 	pid32 toreturn = temp->alrmpid;

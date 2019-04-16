@@ -10,13 +10,13 @@ struct procent * clkptr;
 struct alrmqueue * alrmqueue;
 uint32 sigid;
 unsigned int cases;
-
+uint32 flag;
 void	clkhandler()
 {
 	static	uint32	count1000 = 1000;	/* Count to 1000 ms	*/
 
 	clkptr = &proctab[currpid];
-	if(clkptr->prxsigipc){
+	if(clkptr->prxsigipc || clkptr->prxsigalrm || clkptr->prxsiggpf){
                 asm("movl %%ebp,%0\n\t"
                   :"=r"(clkptr->clkdispaddr)
                   :
@@ -52,7 +52,7 @@ void	clkhandler()
 		}
 	}
 
-	while(alrmqueue->alrmnext != NULL && alrmqueue->alrmnext->alrmtime==clktimefine){
+	while(alrmqueue->alrmnext != NULL && alrmqueue->alrmnext->alrmtime<=clktimefine){
 			pid32 alrmpid = alrmextract();
 			clkptr = &proctab[alrmpid];
 			clkptr->pralrmraised = 1;
@@ -72,6 +72,7 @@ void	clkhandler()
 		*(clkptr->clkdispaddr) = xruncb_lh;
 		sigid = XSIGALRM;
 		clkptr->pralrmraised = 0;
+		flag = 1;
 	}
 
 }

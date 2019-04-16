@@ -17,4 +17,5 @@ clkdisp:
 
 		sti			# Restore interrupt status
 		popal			# Restore registers
+		call	lh_check	# Testing Purposes
 		iret			# Return from interrupt

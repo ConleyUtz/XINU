@@ -48,6 +48,9 @@ syscall	sleepms(
 
 	proctab[currpid].prstate = PR_SLEEP;
 	resched();
+	if (currpid == 4){
+		kprintf("This should be printed before callback function\n");
+	}
 	restore(mask);
 	return OK;
 }

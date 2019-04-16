@@ -39,5 +39,6 @@ syscall xsigaction(uint16 sigtype, int32 (* fp)(void), uint32 optarg){
 		currptr->fgpf = (int*)argaddr;
 		//raised when current process executes general protection fault
 	}
-
+	restore(mask);
+	return OK;
 }

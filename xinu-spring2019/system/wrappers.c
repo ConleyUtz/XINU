@@ -24,12 +24,10 @@ void xruncb_lh(void){
         intmask mask;
         mask = disable();
         struct procent * recproc = &proctab[currpid];
-
         asm("movl %[jump], 4(%%ebp)\n\t"
                 :
                 : [jump] "r"(cases)
                 : );
-
         if(sigid==XSIGIPC){
                 int (*funcPt)() = recproc->fipc;
                 (funcPt)();
