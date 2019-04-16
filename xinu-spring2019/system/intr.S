@@ -235,6 +235,7 @@ _Xint13:
 	movl	%esp, %eax
 	pushl	%eax
 	pushl	$13
+	call	gpfcheck
 	jmp	Xtrap
 
 	.globl  _Xint14			/* Page fault			*/

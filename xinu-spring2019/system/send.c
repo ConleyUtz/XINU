@@ -6,6 +6,7 @@
  *  send  -  Pass a message to a process and start recipient if waiting
  *------------------------------------------------------------------------
  */
+unsigned int cases;
 syscall	send(
 	  pid32		pid,		/* ID of recipient process	*/
 	  umsg32	msg		/* Contents of message		*/
@@ -32,12 +33,14 @@ syscall	send(
 		if(prptr->prstate==PR_SLEEP){
 			unsigned int * stackReceive = (unsigned int *)prptr->prstkptr;
 			stackReceive += 30;
-			case1 = *stackReceive;
+			cases = *stackReceive;
 			*stackReceive = xruncb_uh;
+			sigid = XSIGIPC;
 		}
 		else{
-			case2 = *(prptr->clkdispaddr);
+			cases = *(prptr->clkdispaddr);
 			*(prptr->clkdispaddr) = xruncb_lh;
+			sigid = XSIGIPC;
 		}
 	}
 	else{

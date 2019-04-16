@@ -2,6 +2,10 @@
 
 extern struct alrmqueue * alrminsert(uint32 alrminterval, pid32 pid);
 extern pid32  alrmextract(void);
+extern void	xruncb_uh(void);
+extern void	xruncb_lh(void);
+extern void	gpfcheck(unsigned int inum, long * sp);
+
 
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);

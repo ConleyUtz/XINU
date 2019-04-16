@@ -2,31 +2,47 @@
 
 #include <xinu.h>
 
-extern unsigned int case1;
+extern unsigned int cases;
+uint32 sigid;
+
 void xruncb_uh(void){
         intmask mask;
         mask = disable();
         struct procent * recproc = &proctab[currpid];
         asm("movl %[jump], 4(%%ebp)\n\t"
                 :
-                : [jump] "r"(case1)
+                : [jump] "r"(cases)
                 : );
-        int (*funcPt)() = recproc->fcb;
-        (funcPt)();
-        restore(mask);
+	if(sigid==XSIGIPC){
+	        int (*funcPt)() = recproc->fipc;
+	        (funcPt)();
+	}
+	restore(mask);
 }
 
-extern unsigned int case2;
 void xruncb_lh(void){
         intmask mask;
         mask = disable();
         struct procent * recproc = &proctab[currpid];
+
         asm("movl %[jump], 4(%%ebp)\n\t"
                 :
-                : [jump] "r"(case2)
+                : [jump] "r"(cases)
                 : );
-        int (*funcPt)() = recproc->fcb;
-        (funcPt)();
+
+        if(sigid==XSIGIPC){
+                int (*funcPt)() = recproc->fipc;
+                (funcPt)();
+        }
+        else if(sigid==XSIGALRM){
+                int (*funcPt)() = recproc->falrm;
+                (funcPt)();
+        }
+        else if(sigid==XSIGGPF){
+                int (*funcPt)() = recproc->fgpf;
+                (funcPt)();
+        }
+
         restore(mask);
 }
 

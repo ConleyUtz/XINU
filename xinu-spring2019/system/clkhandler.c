@@ -6,11 +6,24 @@
  * clkhandler - high level clock interrupt handler
  *------------------------------------------------------------------------
  */
-
+struct procent * clkptr;
 struct alrmqueue * alrmqueue;
+uint32 sigid;
+unsigned int cases;
+
 void	clkhandler()
 {
 	static	uint32	count1000 = 1000;	/* Count to 1000 ms	*/
+
+	clkptr = &proctab[currpid];
+	if(clkptr->prxsigipc){
+                asm("movl %%ebp,%0\n\t"
+                  :"=r"(clkptr->clkdispaddr)
+                  :
+                  :
+                );
+                clkptr->clkdispaddr = clkptr->clkdispaddr+10;
+        }
 
 	/* Decrement the ms counter, and see if a second has passed */
 
@@ -41,8 +54,8 @@ void	clkhandler()
 
 	while(alrmqueue->alrmnext != NULL && alrmqueue->alrmnext->alrmtime==clktimefine){
 			pid32 alrmpid = alrmextract();
-			struct procent * prptr = &proctab[alrmpid];
-			prptr->pralrmraised = 1;
+			clkptr = &proctab[alrmpid];
+			clkptr->pralrmraised = 1;
 	}
 
 	/* Decrement the preemption counter, and reschedule when the */
@@ -52,4 +65,13 @@ void	clkhandler()
 		preempt = QUANTUM;
 		resched();
 	}
+	
+	clkptr = &proctab[currpid];
+	if(clkptr->pralrmraised){
+		cases = *(clkptr->clkdispaddr);
+		*(clkptr->clkdispaddr) = xruncb_lh;
+		sigid = XSIGALRM;
+		clkptr->pralrmraised = 0;
+	}
+
 }
