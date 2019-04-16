@@ -66,9 +66,9 @@ void nonBlockingSendPart4_sleep(pid32 receiverProcess, umsg32 msg){
 		kprintf("Could not send: %d\n", 20);
 	}
 }
-
+int alarmtest = 0;
 void alarmProcess(void){
-        if (xsigaction(XSIGALRM,&testcallback2,200) != OK) {
+/*        if (xsigaction(XSIGALRM,&testcallback2,200) != OK) {
                 kprintf("registration failed\n");
                 return 1;
         }
@@ -89,8 +89,37 @@ void alarmProcess(void){
 	}
 	kprintf("lower half: this should be printed after alarm\n\n");
 	kprintf("Epilogue of alarm process reached\n");
+*/
+	if (xsigaction(XSIGALRM,&testcallback2,1000) != OK) {
+                kprintf("registration failed\n");
+                return 1;
+        }
+	if (xsigaction(XSIGALRM,&testcallback2,2000) != OK) {
+                kprintf("registration failed\n");
+                return 1;
+        }
+        if (xsigaction(XSIGALRM,&testcallback2,3000) != OK) {
+                kprintf("registration failed\n");
+                return 1;
+        }
+        if (xsigaction(XSIGALRM,&testcallback2,4000) != OK) {
+                kprintf("registration failed\n");
+                return 1;
+        }
+	for(alarmtest=0; alarmtest<2000000000; alarmtest++){
+	}
+	kprintf("works!");	
 }
 
+void gpfProcess(void){
+	if (xsigaction(XSIGGPF,&testcallback3,200) != OK) {
+                kprintf("registration failed\n");
+                return 1;
+        }
+//	asm("int $13");
+	asm("jmp 0xFFFFFFFF");
+	kprintf("testing testing 123");
+}
 
 process	main(void)
 {
@@ -120,13 +149,21 @@ process	main(void)
 	kprintf("\n\n\n");
 */ //IPC TESTS ^
 
+/*
 	kprintf("Test Alarm\n\n");
 	flag = 0;
 	flag2 = 0;
 	pid32 alarmprocesss = create(alarmProcess, 1024, 20, "alrm1", 0);
 	resume(alarmprocesss);
+*/
+	//Alarm Tests^
+
 
 //	sleepms(200);
+
+	kprintf("Test GPF\n\n");
+	
+	resume(create(gpfProcess, 1024, 20, "gpf1", 0));
 
 	restore(mask);
 	

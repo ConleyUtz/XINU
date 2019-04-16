@@ -5,17 +5,31 @@
 unsigned int cases;
 void gpfcheck(unsigned int inum, long * sp){
 	struct procent * gpfchecker = &proctab[currpid];
-
 	if(gpfchecker->prxsiggpf){
-		if(inum!=13){
-			sp--;
+		unsigned long * gpfaddr =(unsigned long *) &sp;
+		if(*gpfaddr==8){
+			gpfaddr--;
 		}
-		cases = *sp;
+		else{
+			gpfaddr--;
+			gpfaddr--;
+		}
+		cases = *gpfaddr;
 		sigid = XSIGGPF;
-		xruncb_lh();
+		*gpfaddr = xruncb_lh;
 	}
 	else{
-		return;
+	
+		asm("pushl 	%%ebp\n\t"
+        	    "movl    %%esp,%%ebp\n\t"
+        	    "pushal\n\t"
+        	    "movl    %%esp, %%eax\n\t"
+        	    "pushl %%eax\n\t"
+		    "pushl $13\n\t"
+		    "call trap\n\t" 
+			:
+			:
+			:);
 	}
 
 }

@@ -229,14 +229,8 @@ _Xint12:
 
 	.globl  _Xint13			/* General protection		*/
 _Xint13:
-	pushl	%ebp
-	movl	%esp,%ebp
-	pushal
-	movl	%esp, %eax
-	pushl	%eax
-	pushl	$13
 	call	gpfcheck
-	jmp	Xtrap
+	iret
 
 	.globl  _Xint14			/* Page fault			*/
 _Xint14:
