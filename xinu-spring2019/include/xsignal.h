@@ -11,4 +11,7 @@ extern  struct  alrmqueue{
 };
 
 extern struct alrmqueue * alrmqueue;
+
+extern uint32 alrmqueuesize;
+
 //points to head of the list
