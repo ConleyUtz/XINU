@@ -106,9 +106,9 @@ xinu:	Makefile rebuild $(BLDDIRS) $(DEFSFILE) $(DEPSFILE) $(CONFH) $(CONFC) $(LD
 	@$(MAKEXBIN) $(XINUBIN) $(XINUXBIN)
 	@rm -f $(XINUBIN)
 	@echo
-	git add .
-	git commit -m "commit"
-	git push origin master
+#	git add .
+#	git commit -m "commit"
+#	git push origin master
 
 $(BLDDIRS): 
 	@mkdir -p $(BLDDIRS)

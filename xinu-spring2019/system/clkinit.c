@@ -30,6 +30,8 @@ void	clkinit(void)
 
 	clktimefine = 0; /* cutz - initializing clktimefine */
 
+	alrmqueue = NULL;
+
 	/* Set interrupt vector for the clock to invoke clkdisp */
 
 	set_evec(IRQBASE, (uint32)clkdisp);
