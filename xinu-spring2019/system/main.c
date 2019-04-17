@@ -106,7 +106,7 @@ void alarmProcess(void){
                 kprintf("registration failed\n");
                 return 1;
         }
-	for(alarmtest=0; alarmtest<2000000000; alarmtest++){
+	for(alarmtest=0; alarmtest<1000000000; alarmtest++){
 	}
 	kprintf("works!");	
 }
@@ -126,7 +126,7 @@ process	main(void)
 
 	intmask mask = disable();
 
-/*	kprintf("\n\n\n");
+	kprintf("\n\n\n");
 	kprintf("Test 3 Part 4 Upper Half\n\n");
 		
 	pid32 receiverProcessuh = create(receiverPart4uh, 1024, 20, "receiveruh", 0);
@@ -147,7 +147,7 @@ process	main(void)
 
 	sleepms(2000);
 	kprintf("\n\n\n");
-*/ //IPC TESTS ^
+ //IPC TESTS ^
 
 /*
 	kprintf("Test Alarm\n\n");
@@ -160,11 +160,11 @@ process	main(void)
 
 
 //	sleepms(200);
-
+/*
 	kprintf("Test GPF\n\n");
 	
 	resume(create(gpfProcess, 1024, 20, "gpf1", 0));
-
+*/
 	restore(mask);
 	
 	return OK;

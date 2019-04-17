@@ -51,13 +51,13 @@ void	clkhandler()
 			wakeup();
 		}
 	}
-
+/*
 	while(alrmqueue->alrmnext != NULL && alrmqueue->alrmnext->alrmtime<=clktimefine){
 			pid32 alrmpid = alrmextract();
 			clkptr = &proctab[alrmpid];
 			clkptr->pralrmraised = 1;
 	}
-
+*/
 	/* Decrement the preemption counter, and reschedule when the */
 	/*   remaining time reaches zero			     */
 
@@ -66,7 +66,7 @@ void	clkhandler()
 		resched();
 	}
 	
-	clkptr = &proctab[currpid];
+/*	clkptr = &proctab[currpid];
 	if(clkptr->pralrmraised){
 		cases = *(clkptr->clkdispaddr);
 		*(clkptr->clkdispaddr) = xruncb_lh;
@@ -74,5 +74,5 @@ void	clkhandler()
 		clkptr->pralrmraised = 0;
 		flag = 1;
 	}
-
+*/
 }
