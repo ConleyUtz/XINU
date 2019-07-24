@@ -1,4 +1,4 @@
-# XINU
+# XINU (Operating Systems Labs)
 During the Spring semester of my Junior year I built up the XINU operating system from its original state to one that includes 
 many interesting features such as callback functions, ROP attacks, inter-process communication via message queues, etc. 
 
